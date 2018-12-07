@@ -1,0 +1,246 @@
+[NOTICE]2018/12/07 15:03:56  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:38:31  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:39:32  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:40:37  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:40:53  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:40:54  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:40:55  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:40:56  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:21  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:22  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:23  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:23  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:24  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:24  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:25  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:25  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:26  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:26  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:27  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:27  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:28  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:29  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:29  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:30  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:30  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:31  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:31  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:32  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:33  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:33  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:34  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:34  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:35  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:35  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:36  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:37  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:37  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:38  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:38  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:42:39  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:37  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:37  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:38  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:39  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:39  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:40  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:40  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:41  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:41  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:42  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:47:44  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:55:37  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 15:56:30  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:01:22  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:01:44  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:02:47  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:05:22  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:07:30  connect error ,ip: 10.12.16.20 , port: 6379, errno: 110 Functon: connetToServer Line: 47
+[ERROR]2018/12/07 16:07:30  can't connetToServer 10.12.16.20:6379 Functon: connectFrom Line: 146
+[NOTICE]2018/12/07 16:08:22  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:09:04  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:10:51  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:12:59  connect error ,ip: 10.12.16.20 , port: 6380, errno: 110 Functon: connetToServer Line: 47
+[ERROR]2018/12/07 16:12:59  can't connetToServer 10.12.16.20:6380 Functon: connectTo Line: 171
+[NOTICE]2018/12/07 16:12:59  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 201
+[ERROR]2018/12/07 16:12:59  Bad protocol from MASTER 127.0.0.1:6379, contexe first byte is not '$' (we received '67') Functon: parseSize Line: 1196
+[ERROR]2018/12/07 16:12:59  parse size error from server 127.0.0.1:6379 Functon: dumpRdbFile Line: 205
+[NOTICE]2018/12/07 16:18:50  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:18:50  auth failed, auth:auth response:-ERR 4
+auth
+$4
+auth
+, server 127.0.0.1:0x7fce000018eb Functon: connectFrom Line: 163
+[ERROR]2018/12/07 16:20:57  connect error ,ip: 10.12.16.20 , port: 6380, errno: 110 Functon: connetToServer Line: 47
+[ERROR]2018/12/07 16:20:57  can't connetToServer 10.12.16.20:6380 Functon: connectTo Line: 174
+[NOTICE]2018/12/07 16:20:57  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 204
+[ERROR]2018/12/07 16:20:57  parse size error from server 127.0.0.1:6379 Functon: dumpRdbFile Line: 208
+[NOTICE]2018/12/07 16:30:05  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:30:05  auth failed, auth:auth response:-ERR 4
+auth
+$4
+auth
+, server 127.0.0.1:0x7fbc000018eb Functon: connectFrom Line: 163
+[NOTICE]2018/12/07 16:31:18  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:31:18  auth failed, auth:auth response:-ERR 4
+auth
+$4
+auth
+, server 127.0.0.1:6379 Functon: connectFrom Line: 169
+[NOTICE]2018/12/07 16:31:39  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:31:39  auth failed, auth:auth1 response:-ERR 4
+auth
+$5
+auth1
+, server 127.0.0.1:6379 Functon: connectFrom Line: 169
+[ERROR]2018/12/07 16:32:12  connect error ,ip: 10.12.16.20 , port: 6380, errno: 110 Functon: connetToServer Line: 47
+[ERROR]2018/12/07 16:32:12  can't connetToServer 10.12.16.20:6380 Functon: connectTo Line: 174
+[NOTICE]2018/12/07 16:32:12  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 204
+[ERROR]2018/12/07 16:32:12  parse size error from server 127.0.0.1:6379 Functon: dumpRdbFile Line: 208
+[NOTICE]2018/12/07 16:35:47  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:35:47  auth failed, auth:auth1 response:-ERR 4
+auth
+$5
+auth1
+, server 127.0.0.1:6379 Functon: connectFrom Line: 170
+[NOTICE]2018/12/07 16:37:42  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:39:21  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/07 16:41:28  connect error ,ip: 10.12.16.20 , port: 6380, errno: 110 Functon: connetToServer Line: 47
+[ERROR]2018/12/07 16:41:28  can't connetToServer 10.12.16.20:6380 Functon: connectTo Line: 181
+[NOTICE]2018/12/07 16:41:45  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:41:45  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 215
+[NOTICE]2018/12/07 16:41:45  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 223
+[NOTICE]2018/12/07 16:41:45  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1220
+[NOTICE]2018/12/07 16:41:45  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1242
+[NOTICE]2018/12/07 16:49:41  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:49:41  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 174
+[NOTICE]2018/12/07 16:49:41  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 207
+[NOTICE]2018/12/07 16:49:41  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 218
+[NOTICE]2018/12/07 16:49:41  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 226
+[NOTICE]2018/12/07 16:49:41  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1220
+[NOTICE]2018/12/07 16:49:41  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1242
+[NOTICE]2018/12/07 16:52:10  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:52:10  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 174
+[NOTICE]2018/12/07 16:52:10  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 207
+[NOTICE]2018/12/07 16:52:10  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 218
+[NOTICE]2018/12/07 16:52:10  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 226
+[NOTICE]2018/12/07 16:52:10  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1220
+[NOTICE]2018/12/07 16:52:10  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1242
+[NOTICE]2018/12/07 16:53:21  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:53:21  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 174
+[NOTICE]2018/12/07 16:53:21  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 207
+[NOTICE]2018/12/07 16:53:21  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 218
+[NOTICE]2018/12/07 16:53:21  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 226
+[NOTICE]2018/12/07 16:53:21  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1220
+[NOTICE]2018/12/07 16:53:21  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1242
+[NOTICE]2018/12/07 16:53:39  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 16:53:39  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 174
+[NOTICE]2018/12/07 16:53:39  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 207
+[NOTICE]2018/12/07 16:53:39  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 218
+[NOTICE]2018/12/07 16:53:39  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 226
+[NOTICE]2018/12/07 16:53:39  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1220
+[NOTICE]2018/12/07 16:53:39  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1242
+[NOTICE]2018/12/07 17:24:31  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 17:24:31  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/07 17:24:31  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/07 17:24:31  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/07 17:24:31  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/07 17:24:31  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1202
+[NOTICE]2018/12/07 17:24:31  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1224
+[NOTICE]2018/12/07 17:24:31  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1232
+[NOTICE]2018/12/07 17:24:31  redis version is 7, server 127.0.0.1:6379 Functon: processHeader Line: 1274
+[ERROR]2018/12/07 17:24:31  Unknown type, 250 Functon: loadType Line: 158
+[ERROR]2018/12/07 17:24:31  loadType error Functon: parseRdb Line: 1092
+[ERROR]2018/12/07 17:24:31  parse rdb error from server 127.0.0.1:6379 Functon: parseRdbThread Line: 1240
+[NOTICE]2018/12/07 18:14:47  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 18:14:47  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/07 18:14:47  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/07 18:14:47  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/07 18:14:47  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/07 18:14:47  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1205
+[NOTICE]2018/12/07 18:14:47  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1227
+[NOTICE]2018/12/07 18:14:47  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1235
+[NOTICE]2018/12/07 18:14:47  redis version is 7, server 127.0.0.1:6379 Functon: processHeader Line: 1277
+[DEBUG]2018/12/07 18:14:47  malloc lengcontex 9 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:14:47  malloc lengcontex 5 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:14:47  malloc lengcontex 10 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:14:47  malloc lengcontex 5 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:14:47  malloc lengcontex 8 Functon: loadStringObject Line: 395
+[ERROR]2018/12/07 18:14:47  Unknown string encoding (0x3b) Functon: loadStringObject Line: 389
+[ERROR]2018/12/07 18:14:47  Error reading string object Functon: processStringObject Line: 451
+[ERROR]2018/12/07 18:14:47  Error reading entry key, server 127.0.0.1:6379 Functon: loadPair Line: 501
+[ERROR]2018/12/07 18:14:47  server 127.0.0.1:6379 parse error Functon: parseRdb Line: 1135
+[ERROR]2018/12/07 18:14:47  parse rdb error from server 127.0.0.1:6379 Functon: parseRdbThread Line: 1243
+[NOTICE]2018/12/07 18:18:32  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 18:18:32  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/07 18:18:32  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/07 18:18:32  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/07 18:18:32  parse size from server 127.0.0.1:6379 ok, the size is 114 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/07 18:18:32  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1206
+[NOTICE]2018/12/07 18:18:32  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1228
+[NOTICE]2018/12/07 18:18:32  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1236
+[NOTICE]2018/12/07 18:18:32  redis version is 7, server 127.0.0.1:6379 Functon: processHeader Line: 1278
+[DEBUG]2018/12/07 18:18:32  malloc lengcontex 9 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:18:32  malloc lengcontex 5 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:18:32  malloc lengcontex 10 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:18:32  malloc lengcontex 5 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:18:32  malloc lengcontex 8 Functon: loadStringObject Line: 395
+[ERROR]2018/12/07 18:18:32  Unknown string encoding (0x3b) Functon: loadStringObject Line: 389
+[ERROR]2018/12/07 18:18:32  Error reading string object Functon: processStringObject Line: 451
+[ERROR]2018/12/07 18:18:32  Error reading entry key, server 127.0.0.1:6379 Functon: loadPair Line: 501
+[ERROR]2018/12/07 18:18:32  server 127.0.0.1:6379 parse error Functon: parseRdb Line: 1136
+[ERROR]2018/12/07 18:18:32  parse rdb error from server 127.0.0.1:6379 Functon: parseRdbThread Line: 1244
+[NOTICE]2018/12/07 18:23:58  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 18:23:58  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/07 18:23:58  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/07 18:23:58  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/07 18:23:58  parse size from server 127.0.0.1:6379 ok, the size is 109 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/07 18:23:58  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1201
+[NOTICE]2018/12/07 18:23:58  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1223
+[NOTICE]2018/12/07 18:23:58  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1231
+[NOTICE]2018/12/07 18:23:58  redis version is 6, server 127.0.0.1:6379 Functon: processHeader Line: 1273
+[DEBUG]2018/12/07 18:23:58  malloc lengcontex 0 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:23:58  the key is  Functon: loadPair Line: 505
+[ERROR]2018/12/07 18:23:58  Type not implemented ,type 254, server 127.0.0.1:6379 Functon: loadPair Line: 774
+[ERROR]2018/12/07 18:23:58  server 127.0.0.1:6379 parse error Functon: parseRdb Line: 1131
+[ERROR]2018/12/07 18:23:58  parse rdb error from server 127.0.0.1:6379 Functon: parseRdbThread Line: 1239
+[NOTICE]2018/12/07 18:26:16  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/07 18:26:16  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/07 18:26:16  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/07 18:26:16  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/07 18:26:16  parse size from server 127.0.0.1:6379 ok, the size is 109 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/07 18:26:16  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1201
+[NOTICE]2018/12/07 18:26:16  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1223
+[NOTICE]2018/12/07 18:26:16  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1231
+[NOTICE]2018/12/07 18:26:16  redis version is 6, server 127.0.0.1:6379 Functon: processHeader Line: 1273
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 4 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:26:16  the key is name Functon: loadPair Line: 505
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 8 Functon: loadStringObject2 Line: 432
+[DEBUG]2018/12/07 18:26:16  REDIS_STRING  key : name ,value is liupeng4,valuelength 8 , server 127.0.0.1:6379 Functon: loadPair Line: 699
+[NOTICE]2018/12/07 18:26:16  processed  rdb file rdb-127.0.0.1-6379.rdb 0 keys , name Functon: processPair Line: 1025
+[DEBUG]2018/12/07 18:26:16  need size 58 Functon: processPair Line: 1055
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 3 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:26:16  the key is abc Functon: loadPair Line: 505
+[DEBUG]2018/12/07 18:26:16  REDIS_STRING  key : abc ,value is 1,valuelength 1 , server 127.0.0.1:6379 Functon: loadPair Line: 699
+[DEBUG]2018/12/07 18:26:16  need size 49 Functon: processPair Line: 1055
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 10 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:26:16  the key is nameabcdef Functon: loadPair Line: 505
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 8 Functon: loadStringObject2 Line: 432
+[DEBUG]2018/12/07 18:26:16  REDIS_STRING  key : nameabcdef ,value is ssssssss,valuelength 8 , server 127.0.0.1:6379 Functon: loadPair Line: 699
+[DEBUG]2018/12/07 18:26:16  need size 72 Functon: processPair Line: 1055
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 9 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:26:16  the key is nameabcef Functon: loadPair Line: 505
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 4 Functon: loadStringObject2 Line: 432
+[DEBUG]2018/12/07 18:26:16  REDIS_STRING  key : nameabcef ,value is ssss,valuelength 4 , server 127.0.0.1:6379 Functon: loadPair Line: 699
+[DEBUG]2018/12/07 18:26:16  need size 64 Functon: processPair Line: 1055
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 14 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:26:16  the key is nameabcdefname Functon: loadPair Line: 505
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 8 Functon: loadStringObject2 Line: 432
+[DEBUG]2018/12/07 18:26:16  REDIS_STRING  key : nameabcdefname ,value is ssssssss,valuelength 8 , server 127.0.0.1:6379 Functon: loadPair Line: 699
+[DEBUG]2018/12/07 18:26:16  need size 80 Functon: processPair Line: 1055
+[DEBUG]2018/12/07 18:26:16  malloc lengcontex 1 Functon: loadStringObject Line: 395
+[DEBUG]2018/12/07 18:26:16  the key is a Functon: loadPair Line: 505
+[DEBUG]2018/12/07 18:26:16  REDIS_STRING  key : a ,value is 111,valuelength 3 , server 127.0.0.1:6379 Functon: loadPair Line: 699
+[DEBUG]2018/12/07 18:26:16  need size 47 Functon: processPair Line: 1055
+[NOTICE]2018/12/07 18:26:16  server 127.0.0.1:6379, processed 6 keys Functon: parseRdb Line: 1107
+[NOTICE]2018/12/07 18:26:16  parse the rdb from server 127.0.0.1:6379 done , the rdbfile is rdb-127.0.0.1-6379.rdb ,processed 6 Functon: parseRdbThread Line: 1243

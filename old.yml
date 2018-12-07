@@ -1,0 +1,10 @@
+#监听端口，报告自身状态
+listen: 22122
+#日志级别
+level: DEBUG
+#log文件
+logfile: redis-pipe.log
+#redis列表
+servers:
+  10.12.16.20:6379 10.12.16.20:6380
+ 

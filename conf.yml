@@ -1,0 +1,4 @@
+loglevel= DEBUG
+prefix= sess_:
+filter= php:
+removePrefix= php:
