@@ -5,4 +5,5 @@ void workerLoop();
 int connectFrom();
 int connectTo();
 int dumpRdbFile();
+void cycleFunction(void * data);
 #endif

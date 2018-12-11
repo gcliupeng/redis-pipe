@@ -149,6 +149,17 @@ void workerLoop(){
 	addEvent(contex->loop,to,EVENT_WRITE);
 
 	//定时检查
+	event * timer =malloc(sizeof(*timer));
+	if(!timer){
+		Log(LOG_ERROR, "create event error");
+		exit(1);
+	}
+	bzero(timer,sizeof(*timer));
+	timer->type = EVENT_TIMEOUT;
+	timer->tcall = cycleFunction;
+	timer->contex = contex;
+	timer->timeout = 1000;
+	addEvent(contex->loop,timer,EVENT_TIMEOUT);
 
 	// th->processed = 0;
 	// r->type = EVENT_READ;
@@ -272,3 +283,22 @@ int dumpRdbFile(){
 	}
 
 }
+
+void cycleFunction(void * data){
+	event *ev = data;
+	server_contex * th = ev->contex;
+	redis_conf *redis_c = array_get(server.servers_from, 0);
+	// Log(LOG_DEBUG, "checkConnect ");
+	//send ack to redis server
+	char cmd[200] ="\0";
+    // redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
+    sprintf(cmd,"*3\r\n$8\r\nREPLCONF\r\n$3\r\nACK\r\n$%d\r\n%lld\r\n",lengcontexSize(th->offset),th->offset);;
+    // printf("%s\n",cmd);
+    if(!sendToServer(th->from_fd,cmd,strlen(cmd))){
+        //return 0;
+        Log(LOG_ERROR, "ack error ,server %s:%d",redis_c->ip,redis_c->port);
+    }
+
+	addEvent(th->loop,ev,EVENT_TIMEOUT);
+}
+
