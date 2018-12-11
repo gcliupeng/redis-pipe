@@ -19,7 +19,10 @@ typedef struct{
 	char * auth;
 }redis_conf;
 
+#ifndef CONTEX_T
 typedef struct server_contex_s server_contex;
+#define CONTEX_T
+#endif
 
 typedef struct{
 	array * servers_from;
