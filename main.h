@@ -97,8 +97,7 @@ void * outPutLoop(void *arg);
 void init_pool();
 void logRaw(const char * function, int line, int level, const char * fmt, ...);
 
-FILE *logfp;
-int logLeve;
+
 enum {
 	LOG_DEBUG = 0,
 	LOG_NOTICE,

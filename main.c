@@ -7,9 +7,11 @@
 #include <signal.h>  
 
 pipe_server server;
+FILE * logfp;
+int logLevel;
 
 void logRaw(const char * function, int line, int level, const char * fmt, ...){
-	if(level<logLeve){												
+	if(level<logLevel){												
 		return;														
 	}																
 	char msg[500];													
@@ -55,7 +57,7 @@ void initLog(const char *log,int level){
 			logfp = stdout;
 		}
 	}
-	logLeve = level;
+	logLevel = level;
 }
 
 void spawWorkers(){
@@ -100,9 +102,11 @@ void spawWorkers(){
 int main(int argc, char const *argv[])
 {
 	/* code */
+	logfp = stdout;
+	logLevel = LOG_DEBUG;
 	server.logfile = NULL;
 	server.logLevel = LOG_NOTICE;
-	char * configFile = "config.yml";
+	const char * configFile = "config.yml";
 	
 	server.prefix = "";
 	server.removePre = "";
