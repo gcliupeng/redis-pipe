@@ -24,6 +24,7 @@ typedef struct list list;
 static list* newList(){
 	list* l =malloc(sizeof(*l));
 	l->head = NULL;
+	return l;
 }
 
 static int listLength(list *l){
@@ -41,21 +42,25 @@ static int listInsert(list *l,long long timeout,void *data){
 		if(!n){
 			return -1;
 		}
+		n->next = NULL;
 		n->data = data;
 		n->timeout = timeout;
 		l->head = n;
 		return 1;
 	}
-	struct node * h = l->head;
-	while(h->next && h->next->timeout < timeout) h = h->next;
+	// struct node * h = l->head;
 	struct node *n = malloc(sizeof(*n));
 	if(!n){
 		return -1;
 	}
-	n->next = NULL;
+	struct node **p = &(l->head);
+	while((*p)!=NULL && (*p)->timeout < timeout){
+		p = &((*p)->next);
+	}
+	n->next = *p;
 	n->data = data;
 	n->timeout = timeout;
-	h->next = n;
+	*p = n;
 	return 1;
 }
 void expireTimeout(list *l,long long now){
