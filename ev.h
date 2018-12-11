@@ -11,10 +11,10 @@ typedef struct list list;
 #define LIST_T
 #endif
 
-// #ifndef THREAD_T
+#ifndef CONTEX_T
    typedef struct server_contex_s server_contex;
-// #define THREAD_T
-// #endif
+#define CONTEX_T
+#endif
 
 enum 
 {
