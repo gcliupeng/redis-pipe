@@ -241,12 +241,23 @@ int connectTo(){
 int dumpRdbFile(){
 	server_contex * contex = server.contex;
 	redis_conf *redis_c = array_get(server.servers_from, 0);
-	if(!sendSync(contex)){
-		Log(LOG_ERROR,"can't send sync to server %s:%p",redis_c->ip,redis_c->port);
+	
+	if(!sendReplConfCmd(contex)){
+		Log(LOG_ERROR,"can't send replconf to server %s:%p",redis_c->ip,redis_c->port);
+		//return 0;
+	}
+	if(!sendFullSync(contex)){
+		Log(LOG_ERROR,"can't send psync to server %s:%p",redis_c->ip,redis_c->port);
 		return 0;
 	}
-	Log(LOG_NOTICE, "send sync to server %s:%d ok",redis_c->ip,redis_c->port);
+	Log(LOG_NOTICE, "send psync to server %s:%d ok",redis_c->ip,redis_c->port);
 	
+	if(!processPsyncFull(contex)){
+		//printf("parse size error \n");
+		Log(LOG_ERROR, "psync return error from server %s:%d",redis_c->ip,redis_c->port);
+		return 0;
+	}
+
 	if(!parseSize(contex)){
 		//printf("parse size error \n");
 		Log(LOG_ERROR, "parse size error from server %s:%d",redis_c->ip,redis_c->port);

@@ -45,7 +45,9 @@
 #define REDIS_CMD_PING 123
 #define REDIS_CMD_SELECTDB 124
 
-int sendSync(server_contex * th);
+int sendReplConfCmd(server_contex * contex);
+int sendFullSync(server_contex * th);
+int processPsyncFull(server_contex * contex);
 int parseSize(server_contex * th);
 int saveRdb(server_contex * contex);
 int parseRdbThread(server_contex * contex);

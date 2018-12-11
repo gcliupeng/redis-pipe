@@ -14,7 +14,7 @@ $(TARGET):$(OBJS)
 
 clean:
 	rm -rf *.o
-	rm -rf twe-rebanlance
+	rm -rf redis-pipe
 
 array.o: array.c array.h
 config.o: config.c config.h

@@ -274,6 +274,7 @@ void replicationAofFile(server_contex *th){
 		if(n <= 0){
 			return;
 		}
+		th->offset += n;
 	 	th->replicationBufLast+=n;
 	 	processBuf(th,1);
 	}
@@ -320,6 +321,7 @@ void replicationAofBuf(void * data){
 		if(n <= 0){
 			return;
 		}
+		th->offset += n;
 	 	th->replicationBufLast+=n;
 	 	processBuf(th,0);
 	}

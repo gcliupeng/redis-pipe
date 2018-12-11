@@ -784,8 +784,8 @@ void formatResponse(server_contex *contex, buf_t * out){
     struct rzset * zset;
     struct rhash * hash;
     //del
-    //out->position += sprintf(out->position,"*2\r\n$3\r\ndel\r\n");
-    //out->position += formatStr(out->position,contex->key);
+    out->position += sprintf(out->position,"*2\r\n$3\r\ndel\r\n");
+    out->position += formatStr(out->position,contex->key);
  //    int index = 0;
     // long num;
     switch(contex->type){
@@ -874,9 +874,9 @@ int responseSize(server_contex *contex){
     struct rhash * hash;
     //delete first
     // *2\r\n$3del\r\n
-    //cmd_lengcontex = 11;
-    //cmd_lengcontex += lengcontexSize(strlen(contex->key))+5+strlen(contex->key);
-    cmd_lengcontex = 0;
+    cmd_lengcontex = 11;
+    cmd_lengcontex += lengcontexSize(strlen(contex->key))+5+strlen(contex->key);
+    // cmd_lengcontex = 0;
 
     //expire
     if(contex->expiretime != -1 || contex->expiretimeM != -1){
@@ -1142,14 +1142,91 @@ int parseRdb(server_contex * contex){
     }
   }
 
-  int sendSync(server_contex * contex){
-    
-    //int rdbfd = contex->rdbfd;
-    char *sync = "*1\r\n$4\r\nsync\r\n";
+  int sendReplConfCmd(server_contex * contex){
+    char cmd[200] ="\0";
+    redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
+    sprintf(cmd,"REPLCONF listening-port %ld\r\n",REDIS_PIPE_PORT);;
+    if(!sendToServer(contex->from_fd,cmd,strlen(cmd))){
+        return 0;
+    }
+    if(readBytes(contex->from_fd,cmd,5)==0){
+        Log(LOG_ERROR,"can't read REPLCONF response, server %s:%d",redis_c->ip,redis_c->port);
+        return 0;
+    }
+    return 1;
+  }
+
+  int sendFullSync(server_contex * contex){
+    //全同步，但使用psyn命令
+    //char *sync = "*3\r\n$4\r\nsync\r\n";
+    char *sync = "PSYNC ? -1\r\n";
     if(!sendToServer(contex->from_fd,sync,strlen(sync))){
         return 0;
     }
     return 1;
+}
+
+int sendPartSync(server_contex * contex){
+    //全同步，但使用psyn命令
+    //char *sync = "*3\r\n$4\r\nsync\r\n";
+    char cmd[100] = "\0";
+    sprintf(cmd,"PSYNC %s %lld", contex->runid,contex->offset+1);
+    if(!sendToServer(contex->from_fd,cmd,strlen(cmd))){
+        return 0;
+    }
+    return 1;
+}
+
+int processPsyncPart(server_contex * contex){
+    redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
+    char tmp[1024];
+    int fd = contex->from_fd;
+    char *buf = tmp;
+
+    if(readLine(fd,buf,1024) ==-1){
+        return 0;
+    }
+    if(!strncmp(buf,"+CONTINUE",9)) {
+        Log(LOG_NOTICE, "server %s:%d , try part sync ok, next offset :%lld",redis_c->ip,redis_c->port,contex->offset+1);    
+        return 1;
+    }
+    Log(LOG_ERROR, "server %s:%d ,try part sync wrong, retun wrong PSYNC answer , %s",redis_c->ip,redis_c->port,buf);
+    return 0;
+}
+
+int processPsyncFull(server_contex * contex){
+    redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
+    char tmp[1024];
+    int fd = contex->from_fd;
+    char *buf = tmp;
+
+    if(readLine(fd,buf,1024) ==-1){
+        return 0;
+    }
+
+    if (!strncmp(buf,"+FULLRESYNC",11)) {
+        char *runid = NULL, *offset = NULL;
+        runid = strchr(buf,' ');
+        if (runid) {
+            runid++;
+            offset = strchr(runid,' ');
+            if (offset) offset++;
+        }
+        if (!runid || !offset || (offset-runid-1) != REDIS_RUN_ID_SIZE) {
+            Log(LOG_ERROR, "server %s:%d retun wrong PSYNC answer , %s",redis_c->ip,redis_c->port,buf);
+            return 0;
+        } else {
+            memcpy(contex->runid, runid, offset-runid-1);
+            contex->runid[REDIS_RUN_ID_SIZE] = '\0';
+            contex->initial_offset = strtoll(offset,NULL,10);
+            contex->offset = contex->initial_offset;
+            Log(LOG_NOTICE, "server %s:%d , runid:%s, initial_offset:%lld",redis_c->ip,redis_c->port,contex->runid,contex->initial_offset);
+            return 1;
+        }
+    }else{
+        Log(LOG_ERROR, "server %s:%d retun wrong PSYNC answer , %s",redis_c->ip,redis_c->port,buf);
+        return 0;
+    }
 }
 
 //需要再看看redis 协议
