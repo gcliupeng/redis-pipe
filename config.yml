@@ -3,7 +3,7 @@ listen: 22122
 #日志级别
 level: DEBUG
 #log文件
-logfile: redis-pipe.log
+#logfile: redis-pipe.log
 #redis列表
 servers:
   127.0.0.1:6379:auth1 127.0.0.1:6380:auth2

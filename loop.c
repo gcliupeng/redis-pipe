@@ -10,6 +10,7 @@
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <errno.h>
+#include <string.h>
 
 #include "loop.h"
 #include "network.h"
@@ -17,14 +18,15 @@
 #include "main.h"
 #include "ev.h"
 #include "rdb_process.h"
+#include "aof_process.h"
 
 extern pipe_server server;
 
-static pthread_cond_t sync_cond = PTHREAD_COND_INITIALIZER;
-static pthread_mutex_t sync_mutex = PTHREAD_MUTEX_INITIALIZER;
-static int sync_ok;
-static int stop;
-static int aof_alive;
+pthread_cond_t sync_cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t sync_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+int aof_alive;
+int stopAofSave = 0;
 
 void masterLoop(){
 
@@ -83,36 +85,33 @@ void workerLoop(){
 	}
 
 	//解析rdb，同时saveAof
+	aof_alive = 1;
+	pthread_t saveAofthread;
+	pthread_create(&saveAofthread,NULL,saveAofThread,contex);
 	parseRdbThread(contex);
-	
-	
-	//pthread_t saveAofthread;
-	//pthread_create(&saveAofthread,NULL,saveAofThread,th);
-	
-	// //parseRdbThread(th);
-	// //sleep(50);
-	// //处理保存的aof文件
-	// stop = 1;
-	// pthread_mutex_lock(&sync_mutex);
+	//sleep(10);
+	stopAofSave = 1;
 
-	// while(aof_alive == 1){
-	// 	pthread_cond_wait(&sync_cond,&sync_mutex);
-	// }
-	// pthread_mutex_unlock(&sync_mutex);
-
-	// th->replicationBufSize = 1024*1024;
-	// th->replicationBuf = malloc(1024*1024*sizeof(char));
-	// th->replicationBufLast = th->replicationBufPos = th->replicationBuf;
-	// th->bucknum = -1;
-	// th->lineSize = -1;
-	// th->inputMode = -1;
-	// th->step = 0;
-	// th->key = NULL;
-	// Log(LOG_NOTICE, "begin process the aof file from server %s:%d , the file is %s",sc->pname,sc->port ,th->aoffile);
-	// replicationAof(th);
-	// //close(th->aoffd);
-	// Log(LOG_NOTICE, "process the aof file  done server %s:%d , the file is %s , processed %lld",sc->pname,sc->port ,th->aoffile,th->processed);
-	// unlink(th->aoffile);
+	pthread_mutex_lock(&sync_mutex);
+	while(aof_alive == 1){
+		pthread_cond_wait(&sync_cond,&sync_mutex);
+	}
+	pthread_mutex_unlock(&sync_mutex);
+	//处理aof文件
+	contex->replicationBufSize = 1024*1024;
+	contex->replicationBuf = malloc(1024*1024*sizeof(char));
+	contex->replicationBufLast = contex->replicationBufPos = contex->replicationBuf;
+	contex->bucknum = -1;
+	contex->lineSize = -1;
+	contex->inputMode = -1;
+	contex->step = 0;
+	contex->key = NULL;
+	contex->processed = 0;
+	Log(LOG_NOTICE, "begin process the aof file from server , the file is %s",contex->aoffile);
+	replicationAofFile(contex);
+	Log(LOG_NOTICE, "process the aof file done, the file is %s, processed %d",contex->aoffile,contex->processed);
+	unlink(contex->aoffile);
+	
 	// //检查是否server已经把连接关闭
 	// struct tcp_info info; 
  //  	int len=sizeof(info); 
@@ -121,28 +120,57 @@ void workerLoop(){
  //  		Log(LOG_ERROR, "socket closed %s:%d",sc->pname,sc->port);
  //  		//todo 
  //  	}
- //  	Log(LOG_NOTICE, "begin process the server output buf %s:%d ",sc->pname,sc->port);
-	// nonBlock(th->fd);
+ //  	Log(LOG_NOTICE, "begin process the server output buf ");
+	nonBlock(contex->from_fd);
+	event * from =malloc(sizeof(*from));
+	bzero(from,sizeof(*from));
+	if(!from){
+		Log(LOG_ERROR, "create event error");
+		exit(1);
+	}
+	from->type = EVENT_READ;
+	from->fd = contex->from_fd;
+	from->rcall = replicationAofBuf;
+	from->contex = contex;
+	contex->from = from;
+	addEvent(contex->loop,from,EVENT_READ);
+
+	event * to =malloc(sizeof(*to));
+	if(!to){
+		Log(LOG_ERROR, "create event error");
+		exit(1);
+	}
+	bzero(to,sizeof(*to));
+	to->type = EVENT_WRITE;
+	to->fd = contex->to_fd;
+	to->wcall = sendData;
+	to->contex = contex;
+	contex->to = to;
+	addEvent(contex->loop,to,EVENT_WRITE);
+
+	//定时检查
+
 	// th->processed = 0;
 	// r->type = EVENT_READ;
 	// r->fd = th->fd;
 	// r->rcall = replicationWithServer;
 	// r->contex = th;
-	// /*th->replicationBufSize = 1024*1024;
-	// th->replicationBuf = malloc(1024*1024*sizeof(char));
-	// th->replicationBufLast = th->replicationBufPos = th->replicationBuf;
-	// th->bucknum = -1;
-	// th->lineSize = -1;
-	// th->inputMode = -1;
-	// th->step = 0;
-	// */
-	// addEvent(th->loop,r,EVENT_READ);
+	/*
+	th->replicationBufSize = 1024*1024;
+	th->replicationBuf = malloc(1024*1024*sizeof(char));
+	th->replicationBufLast = th->replicationBufPos = th->replicationBuf;
+	th->bucknum = -1;
+	th->lineSize = -1;
+	th->inputMode = -1;
+	th->step = 0;
+	*/
+	//addEvent(th->loop,r,EVENT_READ);
 
 
 
 
 	//事件循环
-	//eventCycle(th->loop);
+	eventCycle(contex->loop);
 }
 
 int connectFrom(){

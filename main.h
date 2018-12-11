@@ -64,8 +64,8 @@ struct server_contex_s{
 	buf_t * bufoutLast;
 	
 	eventLoop *loop;
-	event *read;
-	event *write;
+	event *from;
+	event *to;
 	long transfer_size;
 	long transfer_read;
 	int usemark;

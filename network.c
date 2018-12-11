@@ -54,6 +54,7 @@ int sendToServer(int fd,char *data, int length){
 	int n =0,m;
     while(n<length){
         m = write(fd,data+n,length-n);
+        printf("%d\n",m);
         if(m <= 0){
             return 0;
         }

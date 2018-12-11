@@ -52,7 +52,7 @@ int parseRdbThread(server_contex * contex);
 int processHeader(server_contex * th);
 int parseRdb(server_contex * th);
 void appendToOutBuf(server_contex *th, buf_t * b);
-int lengthSize(long long length);
+int lengcontexSize(long long length);
 int formatStr(char *p,char * str);
 int readBytes(int rdbfd, char * p,int max);
 

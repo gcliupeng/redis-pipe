@@ -18,7 +18,7 @@ int loadConfig(const char * file){
 	char *p;
 	char *q;
 	while(fgets(buf,201,fp) != NULL){
-		
+		if(buf[0] == '#') continue;
 		p = strstr(buf,"logfile:");
 		if(p!=NULL){
 			p+=8;

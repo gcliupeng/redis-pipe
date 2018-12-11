@@ -244,3 +244,65 @@ auth1
 [DEBUG]2018/12/07 18:26:16  need size 47 Functon: processPair Line: 1055
 [NOTICE]2018/12/07 18:26:16  server 127.0.0.1:6379, processed 6 keys Functon: parseRdb Line: 1107
 [NOTICE]2018/12/07 18:26:16  parse the rdb from server 127.0.0.1:6379 done , the rdbfile is rdb-127.0.0.1-6379.rdb ,processed 6 Functon: parseRdbThread Line: 1243
+[NOTICE]2018/12/10 09:54:05  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/10 09:54:05  auth failed, auth:auth1 response:-ERR 4
+auth
+$5
+auth1
+, server 127.0.0.1:6379 Functon: connectFrom Line: 172
+[NOTICE]2018/12/10 09:54:39  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/10 09:54:39  auth failed, auth:auth1 response:-ERR 4
+auth
+$5
+auth1
+, server 127.0.0.1:6379 Functon: connectFrom Line: 172
+[NOTICE]2018/12/10 09:55:01  config file parse ok  Functon: main Line: 126
+[ERROR]2018/12/10 09:55:01  auth failed, auth:auth1 response:-ERR 4
+auth
+$5
+auth1
+, server 127.0.0.1:6379 Functon: connectFrom Line: 172
+[NOTICE]2018/12/10 10:00:48  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/10 10:00:48  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/10 10:00:48  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/10 10:00:48  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/10 10:00:48  parse size from server 127.0.0.1:6379 ok, the size is 18 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/10 10:00:48  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1201
+[NOTICE]2018/12/10 10:00:48  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1223
+[NOTICE]2018/12/10 10:00:48  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1231
+[NOTICE]2018/12/10 10:00:48  redis version is 6, server 127.0.0.1:6379 Functon: processHeader Line: 1273
+[NOTICE]2018/12/10 10:00:48  server 127.0.0.1:6379, processed 0 keys Functon: parseRdb Line: 1107
+[NOTICE]2018/12/10 10:00:48  parse the rdb from server 127.0.0.1:6379 done , the rdbfile is rdb-127.0.0.1-6379.rdb ,processed 0 Functon: parseRdbThread Line: 1243
+[NOTICE]2018/12/10 10:01:41  config file parse ok  Functon: main Line: 126
+[NOTICE]2018/12/10 10:01:41  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/10 10:01:41  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/10 10:01:41  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/10 10:01:41  parse size from server 127.0.0.1:6379 ok, the size is 18 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/10 10:01:41  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1201
+[NOTICE]2018/12/10 10:01:41  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1223
+[NOTICE]2018/12/10 10:01:41  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1231
+[NOTICE]2018/12/10 10:01:41  redis version is 6, server 127.0.0.1:6379 Functon: processHeader Line: 1273
+[NOTICE]2018/12/10 10:01:41  server 127.0.0.1:6379, processed 0 keys Functon: parseRdb Line: 1107
+[NOTICE]2018/12/10 10:01:41  parse the rdb from server 127.0.0.1:6379 done , the rdbfile is rdb-127.0.0.1-6379.rdb ,processed 0 Functon: parseRdbThread Line: 1243
+[NOTICE]2018/12/10 10:03:47  config file parse ok  Functon: main Line: 127
+[NOTICE]2018/12/10 10:03:47  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/10 10:03:47  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/10 10:03:47  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/10 10:03:47  parse size from server 127.0.0.1:6379 ok, the size is 18 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/10 10:03:47  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1201
+[NOTICE]2018/12/10 10:03:47  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1223
+[NOTICE]2018/12/10 10:03:47  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1231
+[NOTICE]2018/12/10 10:03:47  redis version is 6, server 127.0.0.1:6379 Functon: processHeader Line: 1273
+[NOTICE]2018/12/10 10:03:47  server 127.0.0.1:6379, processed 0 keys Functon: parseRdb Line: 1107
+[NOTICE]2018/12/10 10:03:47  parse the rdb from server 127.0.0.1:6379 done , the rdbfile is rdb-127.0.0.1-6379.rdb ,processed 0 Functon: parseRdbThread Line: 1243
+[NOTICE]2018/12/10 10:04:37  config file parse ok  Functon: main Line: 127
+[NOTICE]2018/12/10 10:04:37  connect to from redis ok 127.0.0.1:6379 Functon: connectFrom Line: 176
+[NOTICE]2018/12/10 10:04:37  connect to to redis ok 127.0.0.1:6380 Functon: connectTo Line: 209
+[NOTICE]2018/12/10 10:04:37  send sync to server 127.0.0.1:6379 ok Functon: dumpRdbFile Line: 220
+[NOTICE]2018/12/10 10:04:37  parse size from server 127.0.0.1:6379 ok, the size is 18 Functon: dumpRdbFile Line: 228
+[NOTICE]2018/12/10 10:04:37  begin save the rdb from server 127.0.0.1:6379 , the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1201
+[NOTICE]2018/12/10 10:04:37  save the rdb from server 127.0.0.1:6379 done, the file is rdb-127.0.0.1-6379.rdb Functon: saveRdb Line: 1223
+[NOTICE]2018/12/10 10:04:37  begin parse the rdb from server 127.0.0.1:6379, the rdbfile is rdb-127.0.0.1-6379.rdb Functon: parseRdbThread Line: 1231
+[NOTICE]2018/12/10 10:04:37  redis version is 6, server 127.0.0.1:6379 Functon: processHeader Line: 1273
+[NOTICE]2018/12/10 10:04:37  server 127.0.0.1:6379, processed 0 keys Functon: parseRdb Line: 1107
+[NOTICE]2018/12/10 10:04:37  parse the rdb from server 127.0.0.1:6379 done , the rdbfile is rdb-127.0.0.1-6379.rdb ,processed 0 Functon: parseRdbThread Line: 1243

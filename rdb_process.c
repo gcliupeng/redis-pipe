@@ -21,6 +21,7 @@
 #include "zipmap.h"
 #include "ziplist.h"
 #include "intset.h"
+#include "ev.h"
 
 extern pipe_server server;
 
@@ -783,8 +784,8 @@ void formatResponse(server_contex *contex, buf_t * out){
     struct rzset * zset;
     struct rhash * hash;
     //del
-    out->position += sprintf(out->position,"*2\r\n$3\r\ndel\r\n");
-    out->position += formatStr(out->position,contex->key);
+    //out->position += sprintf(out->position,"*2\r\n$3\r\ndel\r\n");
+    //out->position += formatStr(out->position,contex->key);
  //    int index = 0;
     // long num;
     switch(contex->type){
@@ -873,8 +874,9 @@ int responseSize(server_contex *contex){
     struct rhash * hash;
     //delete first
     // *2\r\n$3del\r\n
-    cmd_lengcontex = 11;
-    cmd_lengcontex += lengcontexSize(strlen(contex->key))+5+strlen(contex->key);
+    //cmd_lengcontex = 11;
+    //cmd_lengcontex += lengcontexSize(strlen(contex->key))+5+strlen(contex->key);
+    cmd_lengcontex = 0;
 
     //expire
     if(contex->expiretime != -1 || contex->expiretimeM != -1){
@@ -975,20 +977,13 @@ int responseSize(server_contex *contex){
 }
 
 void appendToOutBuf(server_contex *contex, buf_t * b){
-    b->last = b->position; 
-    b->position = b->start;
-    pthread_mutex_lock(&contex->mutex);
     if(!contex->bufout){
-        //printf("aaa\n");
         contex->bufout = contex->bufoutLast = b;
     }else{
-        //printf("bbb\n");
         contex->bufoutLast->next = b;
         contex->bufoutLast = b;
     }
-    addEvent(contex->loop, contex->write,EVENT_WRITE);
-    //Log(LOG_DEBUG,"after add addEvent");
-    pthread_mutex_unlock(&contex->mutex);
+    addEvent(contex->loop, contex->to,EVENT_WRITE);
 }
 void freeMem(server_contex * contex){
     //free memory
@@ -1018,7 +1013,7 @@ void freeMem(server_contex * contex){
                 return;
 }
 
-void processPair(server_contex *contex){
+int processPair(server_contex *contex){
     redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
 
     if(contex->processed % 10000 == 0){
@@ -1029,7 +1024,7 @@ void processPair(server_contex *contex){
         if(strncmp(contex->key,server.filter,strlen(server.filter)) !=0){
             freeMem(contex);
             contex->processed ++;
-            return ;
+            return 1;
         }
     }
 
@@ -1037,7 +1032,7 @@ void processPair(server_contex *contex){
         if(!strstr(contex->key,server.have)){
             freeMem(contex);
             contex->processed ++;
-            return ;
+            return 1;
         }
     }
     
@@ -1056,16 +1051,25 @@ void processPair(server_contex *contex){
     buf_t *output = getBuf(size+20);
     if(!output){
         Log(LOG_ERROR,"getBuf error , server %s:%d",redis_c->ip,redis_c->port);
-        exit(1);
+        //exit(1);
+        return 0;
     }
     formatResponse(contex, output);
-    printf("%s",output->start );
+    //printf("%s",output->start );
+    //send to to redis
+    output->last = output->position; 
+    output->position = output->start;
+
+    if(sendToServer(contex->to_fd,output->start, bufLength(output)) != bufLength(output)){
+        Log(LOG_ERROR,"send command to server error %s:%d,",redis_c->ip,redis_c->port);
+        return 0;
+    }
+
     // appendToOutBuf(to->contex, output);
     freeBuf(output);
     freeMem(contex);
-    //printf("%s\n",output->start);
     contex->processed++;
-    return;
+    return 1;
 }
 
 int parseRdb(server_contex * contex){

@@ -100,7 +100,7 @@ void spawWorkers(){
 int main(int argc, char const *argv[])
 {
 	/* code */
-	server.logfile = "redis-pipe.log";
+	server.logfile = NULL;
 	server.logLevel = LOG_NOTICE;
 	char * configFile = "config.yml";
 	
@@ -120,7 +120,6 @@ int main(int argc, char const *argv[])
 	if(loadConfig(configFile)){
 		exit(1);
 	}
-
 	initLog(server.logfile,server.logLevel);
 	init_pool();
 	Log(LOG_NOTICE, "config file parse ok ");

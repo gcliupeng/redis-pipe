@@ -29,32 +29,40 @@ eventLoop * eventLoopCreate(){
 
 int addEvent(eventLoop* loop,event *ev, int type){
 	int op;
+	//printf("type %d\n",type );
 	if((type == EVENT_READ && ev->ractive) || (type == EVENT_WRITE && ev->wactive)){
 		return 1;
 	}
-	if(ev->ractive||ev->wactive){
-		op = EPOLL_CTL_MOD;
-	}else{
-		op = EPOLL_CTL_ADD;
-	}
-	//printf("come here\n");
+	//printf("come here addEvent\n");
 	struct epoll_event e;
 	long long timeout ;
 	switch(type){
 		case EVENT_READ:
+				if(ev->wactive){
+					op = EPOLL_CTL_MOD;
+					e.events = EPOLLIN | EPOLLOUT;
+				}else{
+					op = EPOLL_CTL_ADD;
+					e.events = EPOLLIN;
+				}
 				e.data.ptr = ev; 
-				e.events=EPOLLIN;
 				ev->ractive = 1;
 				return epoll_ctl(loop->efd, op, ev->fd, &e);
 				break;
 		case EVENT_WRITE:
+				if(ev->ractive){
+					op = EPOLL_CTL_MOD;
+					e.events = EPOLLIN | EPOLLOUT;
+				}else{
+					op = EPOLL_CTL_ADD;
+					e.events = EPOLLOUT;
+				}
 				e.data.ptr = ev; 
-				e.events=EPOLLOUT;
 				ev->wactive = 1;
-				//Log(LOG_DEBUG,"come here "); 
-				epoll_ctl(loop->efd, op, ev->fd, &e);
+				//Log(LOG_DEBUG,"come here %d",ev->fd); 
+				return epoll_ctl(loop->efd, op, ev->fd, &e);
 				//Log(LOG_DEBUG,"after epoll");
-				return 1;
+				// return 1;
 				break;
 		case EVENT_TIMEOUT:
 				timeout = ev->timeout;
@@ -77,28 +85,26 @@ void delEvent(eventLoop* loop,event *ev, int type){
 		return ;
 	}
 	if(type == EVENT_READ){
-		other = contex->write;
-		if(other->wactive){
+		if(ev->wactive){
 			op = EPOLL_CTL_MOD;
 			e.events = EPOLLOUT;
-			e.data.ptr = other;
 		}else{
 			op = EPOLL_CTL_DEL;
+			e.events = EPOLLIN;
 		}
 		ev->ractive = 0;
 	}else{
-		other = contex->read;
-		if(other->ractive){
+		if(ev->ractive){
 			op = EPOLL_CTL_MOD;
 			e.events = EPOLLIN;
-			e.data.ptr = other;
 		}else{
 			op = EPOLL_CTL_DEL;
+			e.events = EPOLLOUT;
 		}
 		ev->wactive = 0;
 	}
+	e.data.ptr = ev; 
 	epoll_ctl(loop->efd, op, ev->fd, &e);
-
 }
 
 void eventCycle(eventLoop* loop){
@@ -127,18 +133,18 @@ void eventCycle(eventLoop* loop){
 			Log(LOG_ERROR, "epoll_wait return %d",n);
 			return ;
 		}
-		//Log("[notice] epoll_wait return %d",n);
+		// Log(LOG_NOTICE,"[notice] epoll_wait return %d",n);
 		for (i = 0; i < n; ++i)
 		{
 			struct epoll_event e = loop->list[i];
 			ev = (event *)e.data.ptr;
 
 			if(e.events & EPOLLIN){
-				//Log("[notice] fd %d , read ready ~",ev->fd);
+				// Log(LOG_NOTICE,"[notice] fd %d , read ready ~",ev->fd);
 				ev->rcall(ev);
 			}
 			if(e.events & EPOLLOUT){
-				//Log("[notice] fd %d , write ready ~",ev->fd);
+				// Log(LOG_NOTICE,"[notice] fd %d , write ready ~",ev->fd);
 				ev->wcall(ev);
 			}
 		}
