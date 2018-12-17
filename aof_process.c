@@ -16,6 +16,7 @@
 #include "main.h"
 #include "ev.h"
 #include "rdb_process.h"
+#include "loop.h"
 
 extern pipe_server server;
 extern int stopAofSave;
@@ -222,11 +223,7 @@ void processBuf(server_contex * th,int directSend){
     		output->position = output->start;
     		// printf("%s\n",output->start );
 			if(directSend){
-				if(sendToServer(th->to_fd,output->start, bufLength(output)) != bufLength(output)){
-        			Log(LOG_ERROR,"send command to server error %s:%d,",to->ip,to->port);
-        			resetState(th);
-        			return ;
-    			}
+				sendToServerwithRerty(th,output);
 			}else{
 				appendToOutBuf(th, output);
 			}
@@ -321,6 +318,7 @@ void replicationAofBuf(void * data){
 		if(n <= 0){
 			return;
 		}
+		th->lastinteraction = time(NULL);
 		th->offset += n;
 	 	th->replicationBufLast+=n;
 	 	processBuf(th,0);
@@ -364,6 +362,7 @@ void * saveAofThread(void *data){
 }
 
 void  sendData(void * data){
+	// printf("come into sendData\n");
 	event *ev = data;
 	server_contex * contex = ev->contex;;
 	int fd = ev->fd;
@@ -371,6 +370,7 @@ void  sendData(void * data){
 	//get one buf
 	buf_t * buf = contex->bufout;
 	if(!buf){
+		// printf("come 1\n");
 		delEvent(contex->loop ,ev, EVENT_WRITE);
 		return;
 	} 
@@ -378,11 +378,29 @@ void  sendData(void * data){
 
 	//send it
 	if(buf->last-buf->position ==0){
+		// printf("come 2\n");
 		freeBuf(buf);
 		return;
 	}
+	// printf("come 3\n");
 	// printf("%s\n",buf->position );
 	n = write(fd, buf->position, buf->last-buf->position);
+	// printf("come4 %d\n",n);
+	if(n <= 0){
+		if(errno == EAGAIN){
+			usleep(10000);
+			n = write(fd, buf->position, buf->last-buf->position);
+			if(n <= 0){
+				contex->needReconnectTo = 1;
+				Log(LOG_NOTICE, "try to reconnect the to redis server");
+				return;
+			}
+		}else{
+			contex->needReconnectTo = 1;
+			Log(LOG_NOTICE, "try to reconnect the to redis server");
+			return;
+		}
+	}
 	if(n == buf->last - buf->position){
 		freeBuf(buf);
 	}else{
@@ -392,55 +410,6 @@ void  sendData(void * data){
 		contex->bufout = buf;
 	}
 }
-
-// void reconnect(server_contex * th){
-// 	server_conf * sc = th->sc;
-// 	th->fd = connetToServer(sc->port,sc->pname);
-// 	if(th->fd <= 0){
-// 		Log(LOG_ERROR, "can't connetToServer %s:%d",sc->pname,sc->port);
-// 		//exit(1);
-// 		return;
-// 	}
-
-// 	//auth
-// 	if(strlen(server.new_config->auth)>0){
-// 		char auth[100];
-// 		int n;
-// 		n = sprintf(auth,"*2\r\n$4\r\nauth\r\n$%d\r\n%s\r\n",strlen(server.new_config->auth),server.new_config->auth);
-// 		auth[n] = '\0';
-// 		if(!sendToServer(th->fd,auth,strlen(auth))){
-// 			Log(LOG_ERROR,"can't send auth:%s to server %s:%p",server.new_config->auth, sc->pname,sc->port);
-// 			//exit(1);
-// 			return;
-// 		}
-// 		//read +OK\r\n
-// 		if(readBytes(th->fd,auth,5)==0){
-// 			Log(LOG_ERROR,"can't read auth:%s response, server %s:%p",server.new_config->auth, sc->pname,sc->port);
-// 			//exit(1);
-// 			return;
-// 		}
-// 	}
-
-// 	event * w =malloc(sizeof(*w));
-// 	if(!w){
-// 		Log(LOG_ERROR, "create event error");
-// 		exit(1);
-// 	}
-// 	th->write = w;
-
-// 	event * r =malloc(sizeof(*r));
-// 	if(!r){
-// 		Log(LOG_ERROR, "create event error");
-// 		exit(1);
-// 	}
-// 	th->read = r;
-// 	w->type = EVENT_WRITE;
-// 	w->fd = th->fd;
-// 	w->wcall = sendData;
-// 	w->contex = th;
-// 	addEvent(th->loop,w,EVENT_WRITE);
-	
-// }
 
 
 // void checkConnect(void * data){

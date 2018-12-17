@@ -131,7 +131,7 @@ void eventCycle(eventLoop* loop){
 		n = epoll_wait(loop->efd,loop->list,500,minTimeout);
 		if(n < 0){
 			Log(LOG_ERROR, "epoll_wait return %d",n);
-			return ;
+			continue ;
 		}
 		// Log(LOG_NOTICE,"[notice] epoll_wait return %d",n);
 		for (i = 0; i < n; ++i)

@@ -59,6 +59,8 @@ void workerLoop(){
 	}
 	server.contex = contex;
 	contex->sc = &server;
+	contex->retryFrom = contex->retryTo = RECONNCET_TRY;
+	contex->needReconnectTo = 0;
 	//contex->transfer_size = -1;
 	pthread_mutex_init(&contex->mutex,NULL);
 	//初始化EPOLL
@@ -122,6 +124,7 @@ void workerLoop(){
  //  	}
  //  	Log(LOG_NOTICE, "begin process the server output buf ");
 	nonBlock(contex->from_fd);
+	nonBlock(contex->to_fd);
 	event * from =malloc(sizeof(*from));
 	bzero(from,sizeof(*from));
 	if(!from){
@@ -133,6 +136,7 @@ void workerLoop(){
 	from->rcall = replicationAofBuf;
 	from->contex = contex;
 	contex->from = from;
+	contex->lastinteraction = time(NULL);
 	addEvent(contex->loop,from,EVENT_READ);
 
 	event * to =malloc(sizeof(*to));
@@ -146,6 +150,12 @@ void workerLoop(){
 	to->wcall = sendData;
 	to->contex = contex;
 	contex->to = to;
+	// int snd_size = 0;    /* 发送缓冲区大小为8K */ 
+ //    int optlen = sizeof(snd_size); 
+ //    int err=setsockopt(contex->to_fd, SOL_SOCKET, SO_SNDBUF, &snd_size, optlen); 
+ //    printf("%d %d\n",err,errno );
+ //    getsockopt(contex->to_fd, SOL_SOCKET, SO_SNDBUF, &snd_size, &optlen);  
+	// printf("huanchongqu %d\n",snd_size );
 	addEvent(contex->loop,to,EVENT_WRITE);
 
 	//定时检查
@@ -284,19 +294,121 @@ int dumpRdbFile(){
 
 }
 
+int reconect(server_contex * contex){
+	redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
+	Log(LOG_NOTICE, "try reconnect to server %s:%d",redis_c->ip,redis_c->port);
+	int fd = connectFrom();
+	if(!fd){
+		Log(LOG_ERROR, "reconect server %s:%d error",redis_c->ip,redis_c->port ,contex->transfer_size);
+		return 0;
+	}
+	int oldfd = contex->from_fd;
+	//delEvent(contex->loop,contex->from,EVENT_READ);
+	contex->from_fd = fd;
+	if(!sendReplConfCmd(contex)){
+		Log(LOG_ERROR,"can't send replconf to server %s:%p",redis_c->ip,redis_c->port);
+		contex->from_fd = oldfd;
+		close(fd);
+		return 0;
+	}
+	if(!sendPartSync(contex)){
+		Log(LOG_ERROR,"can't send psync to server %s:%p",redis_c->ip,redis_c->port);
+		contex->from_fd = oldfd;
+		close(fd);
+		return 0;
+	}
+	if(!processPsyncPart(contex)){
+		//printf("parse size error \n");
+		Log(LOG_ERROR, "psync return error from server %s:%d",redis_c->ip,redis_c->port);
+		contex->from_fd = oldfd;
+		close(fd);
+		return 0;
+	}
+	Log(LOG_NOTICE, "reconnect to server %s:%d for part sync ok",redis_c->ip,redis_c->port);
+	//add new event
+	delEvent(contex->loop,contex->from,EVENT_READ);
+	close(oldfd);
+	nonBlock(fd);
+	contex->from->fd = fd;
+	addEvent(contex->loop,contex->from,EVENT_READ);
+	return 1;
+}
+
+int sendToServerwithRerty(server_contex * contex, buf_t * output){
+	redis_conf *redis_c = array_get(server.servers_to, 0);
+	if(sendToServer(contex->to_fd,output->start, bufLength(output)) != bufLength(output)){
+        Log(LOG_ERROR,"send command to server error %s:%d,",redis_c->ip,redis_c->port);
+        int retry = RECONNCET_TRY;
+        int sendok = 0;
+        while(retry-- > 0){
+        	usleep(10000);
+        	int fd = connectTo();
+            if(fd > 0){
+            	int oldfd = contex->to_fd;
+                if(sendToServer(contex->to_fd,output->start, bufLength(output)) == bufLength(output)){
+                    sendok = 1;
+                    close(oldfd);
+                    contex->to_fd = fd;
+                    return 1;
+                }
+            }
+        }
+        if(sendok == 0){
+            Log(LOG_ERROR, "server %s:%d reconnect failed,will exit",redis_c->ip,redis_c->port);
+            exit(1);
+        }
+    }
+    return 1;
+}
+
 void cycleFunction(void * data){
 	event *ev = data;
 	server_contex * th = ev->contex;
 	redis_conf *redis_c = array_get(server.servers_from, 0);
-	// Log(LOG_DEBUG, "checkConnect ");
 	//send ack to redis server
 	char cmd[200] ="\0";
-    // redis_conf *redis_c = array_get(contex->sc->servers_from, 0);
-    sprintf(cmd,"*3\r\n$8\r\nREPLCONF\r\n$3\r\nACK\r\n$%d\r\n%lld\r\n",lengcontexSize(th->offset),th->offset);;
-    // printf("%s\n",cmd);
+    sprintf(cmd,"*3\r\n$8\r\nREPLCONF\r\n$3\r\nACK\r\n$%d\r\n%lld\r\n",lengcontexSize(th->offset),th->offset);
+    // printf("%s\n", cmd);
     if(!sendToServer(th->from_fd,cmd,strlen(cmd))){
         //return 0;
         Log(LOG_ERROR, "ack error ,server %s:%d",redis_c->ip,redis_c->port);
+    }
+
+    //check network active
+    time_t now = time(NULL);
+    long long ideal = now - th->lastinteraction;
+    //printf("ideal time %lld\n",ideal);
+    //reconect and send psync
+    if(ideal > RECONNCET_TIMEOUT){
+    	if(th->retryFrom == 0){
+    		Log(LOG_ERROR, "server %s:%d connect psync after all retry,will exit",redis_c->ip,redis_c->port);
+    		exit(1);
+    	}
+    	if(reconect(th)){
+    		th->retryFrom = RECONNCET_TRY;
+    		th->lastinteraction = now; 
+    	}else{
+    		th->retryFrom--;
+    	}
+    }
+
+    //reconect to redis
+    if(th->needReconnectTo){
+    	if(th->retryTo == 0){
+    		Log(LOG_ERROR, "server %s:%d reconnect failed after all retry,will exit",redis_c->ip,redis_c->port);
+    		exit(1);
+    	}
+    	int newfd = connectTo();
+    	if(newfd > 0 ){
+    		th->needReconnectTo = 0;
+    		th->retryTo = RECONNCET_TRY;
+    		delEvent(th->loop,th->to,EVENT_WRITE);
+			close(th->to_fd);
+			th->to->fd = newfd;
+			addEvent(th->loop,th->to,EVENT_WRITE);
+    	}else{
+    		th->retryTo--;
+    	}
     }
 
 	addEvent(th->loop,ev,EVENT_TIMEOUT);

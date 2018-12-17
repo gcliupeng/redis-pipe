@@ -22,6 +22,7 @@
 #include "ziplist.h"
 #include "intset.h"
 #include "ev.h"
+#include "loop.h"
 
 extern pipe_server server;
 
@@ -1059,11 +1060,7 @@ int processPair(server_contex *contex){
     //send to to redis
     output->last = output->position; 
     output->position = output->start;
-
-    if(sendToServer(contex->to_fd,output->start, bufLength(output)) != bufLength(output)){
-        Log(LOG_ERROR,"send command to server error %s:%d,",redis_c->ip,redis_c->port);
-        return 0;
-    }
+    sendToServerwithRerty(contex,output);
 
     // appendToOutBuf(to->contex, output);
     freeBuf(output);
@@ -1170,7 +1167,7 @@ int sendPartSync(server_contex * contex){
     //全同步，但使用psyn命令
     //char *sync = "*3\r\n$4\r\nsync\r\n";
     char cmd[100] = "\0";
-    sprintf(cmd,"PSYNC %s %lld", contex->runid,contex->offset+1);
+    sprintf(cmd,"PSYNC %s %lld\r\n", contex->runid,contex->offset+1);
     if(!sendToServer(contex->from_fd,cmd,strlen(cmd))){
         return 0;
     }

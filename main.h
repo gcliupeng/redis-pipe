@@ -13,6 +13,8 @@
 
 #define REDIS_RUN_ID_SIZE 40
 #define REDIS_PIPE_PORT 5555
+#define RECONNCET_TIMEOUT 15
+#define RECONNCET_TRY 5
 
 typedef struct{
 	int port;
@@ -95,6 +97,10 @@ struct server_contex_s{
 	char runid[REDIS_RUN_ID_SIZE+1];
 	long long initial_offset;
 	long long offset;
+	time_t lastinteraction;
+	int retryFrom;
+	int retryTo;
+	int needReconnectTo;
 };
 
 void * transferFromServer(void *arg);

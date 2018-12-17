@@ -153,7 +153,11 @@ int main(int argc, char const *argv[])
 	//exit(0);
 	// oldMap = createDict(20);
 	// newMap = createDict(20);
-
+	struct sigaction act;  
+ 	act.sa_handler = SIG_IGN;  
+ 	sigemptyset(&act.sa_mask);  
+ 	sigaction(SIGPIPE, &act, 0);
+	//workerLoop();
 	spawWorkers();
 
 	// //wait signal
