@@ -271,7 +271,7 @@ void replicationAofFile(server_contex *th){
 		if(n <= 0){
 			return;
 		}
-		th->offset += n;
+		//th->offset += n;
 	 	th->replicationBufLast+=n;
 	 	processBuf(th,1);
 	}
@@ -347,8 +347,12 @@ void * saveAofThread(void *data){
         if(n>0){
             write(filefd,buf,n);
             sum+=n;
+            contex->offset += n;
             if(loop %1000 ==0){
             	Log(LOG_NOTICE, "write into aof file %s , %lld byte ",contex->aoffile, sum);
+            	char cmd[200] ="\0";
+    			sprintf(cmd,"*3\r\n$8\r\nREPLCONF\r\n$3\r\nACK\r\n$%d\r\n%lld\r\n",lengcontexSize(contex->offset),contex->offset);
+    			sendToServer(contex->from_fd,cmd,strlen(cmd));
             }
             loop++;
         }
