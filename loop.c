@@ -168,7 +168,7 @@ void workerLoop(){
 	timer->type = EVENT_TIMEOUT;
 	timer->tcall = cycleFunction;
 	timer->contex = contex;
-	timer->timeout = 1000;
+	timer->timeout = 200;
 	addEvent(contex->loop,timer,EVENT_TIMEOUT);
 
 	// th->processed = 0;

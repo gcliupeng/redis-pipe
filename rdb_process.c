@@ -1019,6 +1019,9 @@ int processPair(server_contex *contex){
 
     if(contex->processed % 10000 == 0){
         Log(LOG_NOTICE, "processed  rdb file %s %d keys , %s",contex->rdbfile, contex->processed,contex->key);
+        // char cmd[200] ="\0";
+        // sprintf(cmd,"*3\r\n$8\r\nREPLCONF\r\n$3\r\nACK\r\n$%d\r\n%lld\r\n",lengcontexSize(contex->offset),contex->offset);
+        // sendToServer(contex->from_fd,cmd,strlen(cmd));
     }
     
     if(strlen(server.filter)>0){

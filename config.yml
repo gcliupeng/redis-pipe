@@ -1,9 +1,14 @@
-#监听端口，报告自身状态
-listen: 22122
 #日志级别
 level: DEBUG
+#以filter为前缀的忽略
+filter: aaa
+#只有包含此字符串的才处理
+have: bbb
+#key加上这样一个前缀后同步
+prefix: ccc
 #log文件
-#logfile: redis-pipe.log
+logfile: redis-pipe.log
 #redis列表
 servers:
   127.0.0.1:6379:auth1 127.0.0.1:6380:auth2
+  127.0.0.2:6379:auth1 127.0.0.2:6380:auth2
