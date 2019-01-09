@@ -27,6 +27,7 @@ pthread_mutex_t sync_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int aof_alive;
 int stopAofSave = 0;
+char tmpBuf[1024];
 
 void masterLoop(){
 
@@ -345,9 +346,10 @@ int sendToServerwithRerty(server_contex * contex, buf_t * output){
         	int fd = connectTo();
             if(fd > 0){
             	int oldfd = contex->to_fd;
-                if(sendToServer(contex->to_fd,output->start, bufLength(output)) == bufLength(output)){
+                if(sendToServer(fd,output->start, bufLength(output)) == bufLength(output)){
                     sendok = 1;
                     close(oldfd);
+                    nonBlock(fd);
                     contex->to_fd = fd;
                     return 1;
                 }
@@ -405,11 +407,15 @@ void cycleFunction(void * data){
     		delEvent(th->loop,th->to,EVENT_WRITE);
 			close(th->to_fd);
 			th->to->fd = newfd;
+			th->to_fd = newfd;
+			nonBlock(newfd);
 			addEvent(th->loop,th->to,EVENT_WRITE);
     	}else{
     		th->retryTo--;
     	}
     }
+    //定时清空to server 发送缓冲区
+    read(th->to_fd,tmpBuf,1024);
 
 	addEvent(th->loop,ev,EVENT_TIMEOUT);
 }
