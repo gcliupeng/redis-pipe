@@ -99,6 +99,35 @@ void spawWorkers(){
 // 	Log(LOG_ERROR, "server close the connection error");
 // }
 
+void sigsegvHandler(int sig, siginfo_t *info, void *secret) {
+	Log(LOG_ERROR, "memory crash !!!");
+	ucontext_t *uc = (ucontext_t*) secret;
+	void *buffer[30] = {0};  
+    size_t size;  
+    char **strings = NULL;  
+    size_t i = 0;  
+  
+    size = backtrace(buffer, 30);  
+    //fprintf(stdout, "Obtained %zd stack frames.nm\n", size);  
+    // buffer[1] = (void*) uc->uc_mcontext.gregs[16];
+    strings = backtrace_symbols(buffer, size);  
+    if (strings == NULL)  
+    {  
+    	Log(LOG_ERROR, "no frames !!");
+        //perror("backtrace_symbols.");  
+        exit(2);  
+    }  
+      
+    for (i = 0; i < size; i++)  
+    {  
+    	Log(LOG_ERROR,"dump:  %s",strings[i]);
+        // fprintf(stdout, "%s\n", strings[i]);  
+    }  
+    free(strings);  
+    strings = NULL;  
+    exit(0);  
+}
+
 int main(int argc, char const *argv[])
 {
 	/* code */
@@ -157,7 +186,13 @@ int main(int argc, char const *argv[])
  	act.sa_handler = SIG_IGN;  
  	sigemptyset(&act.sa_mask);  
  	sigaction(SIGPIPE, &act, 0);
-	//workerLoop();
+
+ 	act.sa_sigaction = sigsegvHandler;
+ 	sigemptyset(&act.sa_mask);  
+ 	act.sa_flags = SA_NODEFER | SA_RESETHAND | SA_SIGINFO;;  
+ 	sigaction(SIGSEGV, &act, 0);
+
+	// workerLoop();
 	spawWorkers();
 
 	// //wait signal
