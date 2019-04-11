@@ -119,11 +119,14 @@ void sigsegvHandler(int sig, siginfo_t *info, void *secret) {
         exit(2);  
     }  
       
+    char content[1000]=""; 
+    int pos = 0;
     for (i = 0; i < size; i++)  
     {  
-    	Log(LOG_ERROR,"dump:  %s",strings[i]);
-        // fprintf(stdout, "%s\n", strings[i]);  
-    }  
+    	int nn = sprintf(content+pos,"%s\n",strings[i]);
+    	pos+=nn;
+    }
+    Log(LOG_ERROR,"dump: %s",content);
     free(strings);  
     strings = NULL;  
     exit(0);  
