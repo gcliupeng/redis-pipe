@@ -5,6 +5,7 @@
 #include "main.h"
 #include "loop.h"
 #include <signal.h>  
+#include <execinfo.h> 
 
 pipe_server server;
 FILE * logfp;
