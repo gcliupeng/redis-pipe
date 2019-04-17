@@ -5,7 +5,8 @@
 #include "main.h"
 #include "loop.h"
 #include <signal.h>  
-#include <execinfo.h> 
+#include <execinfo.h>
+#include <sys/wait.h> 
 
 pipe_server server;
 FILE * logfp;
@@ -86,8 +87,16 @@ void spawWorkers(){
 		}else{
 			//father
 			count--;
-			//建立 server_from 到 pid的映射
 			if(!count){
+				int deadN = 0;
+				//fetch child exit signal
+				while(deadN < array_n(server.servers_from)){
+					int exit_status;
+					int exitpid = wait(&exit_status);
+					deadN++;
+					Log(LOG_ERROR,"PID:%d exited with exit_code:%d", exitpid, WEXITSTATUS(exit_status));
+					Log(LOG_ERROR,"PID:%d died on signal:%d", exitpid, WTERMSIG(exit_status));
+				}
 				exit(0);
 				//masterLoop();
 			}
@@ -132,6 +141,15 @@ void sigsegvHandler(int sig, siginfo_t *info, void *secret) {
     exit(0);  
 }
 
+void damonize(){
+	int pid = fork();
+	if(pid < 0){
+		Log(LOG_ERROR,"fork error");
+		exit(1);
+	}
+	if(pid >0) exit(0);
+	setsid();
+}
 int main(int argc, char const *argv[])
 {
 	/* code */
@@ -190,13 +208,20 @@ int main(int argc, char const *argv[])
  	act.sa_handler = SIG_IGN;  
  	sigemptyset(&act.sa_mask);  
  	sigaction(SIGPIPE, &act, 0);
+ 	sigaction(SIGINT, &act, 0);
+ 	sigaction(SIGHUP, &act, 0);
+ 	sigaction(SIGTERM, &act, 0);
 
  	act.sa_sigaction = sigsegvHandler;
  	sigemptyset(&act.sa_mask);  
  	act.sa_flags = SA_NODEFER | SA_RESETHAND | SA_SIGINFO;;  
  	sigaction(SIGSEGV, &act, 0);
+ 	sigaction(SIGBUS, &act, NULL);
+    sigaction(SIGFPE, &act, NULL);
+    sigaction(SIGILL, &act, NULL);
 
 	// workerLoop();
+	damonize();
 	spawWorkers();
 
 	// //wait signal
