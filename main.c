@@ -11,6 +11,7 @@
 pipe_server server;
 FILE * logfp;
 int logLevel;
+array * array_pid;
 
 void logRaw(const char * function, int line, int level, const char * fmt, ...){
 	if(level<logLevel){												
@@ -64,8 +65,12 @@ void initLog(const char *log,int level){
 
 void spawWorkers(){
 
+	// printf("%d\n",array_n(server.servers_from ));
+	// exit(0);
 	int count = array_n(server.servers_from);
-	while(count){
+	array_pid = array_create(count,sizeof(int));
+	int i = 0;
+	while(i++ < array_n(server.servers_from)){
 		int r = fork();
 		if(r<0){
 			Log(LOG_ERROR,"fork error, errno:%d",errno);
@@ -74,18 +79,20 @@ void spawWorkers(){
 		if(r ==0){
 			array * servers_from = array_create(1,sizeof(redis_conf));
 			redis_conf *sct = array_push(servers_from);
-			redis_conf *sctt = array_get(server.servers_from, count-1);
+			redis_conf *sctt = array_get(server.servers_from, i-1);
 			*sct = *sctt;
 			server.servers_from = servers_from;
 
 			array * servers_to = array_create(1,sizeof(redis_conf));
 			sct = array_push(servers_to);
-			sctt = array_get(server.servers_to, count-1);
+			sctt = array_get(server.servers_to, i-1);
 			*sct = *sctt;
 			server.servers_to = servers_to;
 			break;
 		}else{
 			//father
+			int * pid = array_push(array_pid);
+			*pid = r; 
 			count--;
 			if(!count){
 				int deadN = 0;
@@ -93,10 +100,21 @@ void spawWorkers(){
 				while(deadN < array_n(server.servers_from)){
 					int exit_status;
 					int exitpid = wait(&exit_status);
+					if(exitpid == -1){
+						continue;
+					}
+					int j = 0;
+					for (; j < array_n(array_pid); ++j){
+						int *childid = array_get(array_pid,j);
+						if (*childid == exitpid){
+							*childid = -1;
+						}
+					}
 					deadN++;
 					Log(LOG_ERROR,"PID:%d exited with exit_code:%d", exitpid, WEXITSTATUS(exit_status));
 					Log(LOG_ERROR,"PID:%d died on signal:%d", exitpid, WTERMSIG(exit_status));
 				}
+				Log(LOG_ERROR,"all children exit , father exit too ");
 				exit(0);
 				//masterLoop();
 			}
@@ -108,6 +126,39 @@ void spawWorkers(){
 // void func(){
 // 	Log(LOG_ERROR, "server close the connection error");
 // }
+
+void reloadWorker(){
+	int i;
+	for (i = 0; i < array_n(array_pid); ++i){
+		int * childid  = array_get(array_pid,i);
+		if(*childid == -1){
+			int r = fork();
+			if(r == 0){
+				array * servers_from = array_create(1,sizeof(redis_conf));
+				redis_conf *sct = array_push(servers_from);
+				redis_conf *sctt = array_get(server.servers_from, i);
+				*sct = *sctt;
+				server.servers_from = servers_from;
+
+				array * servers_to = array_create(1,sizeof(redis_conf));
+				sct = array_push(servers_to);
+				sctt = array_get(server.servers_to, i);
+				*sct = *sctt;
+				server.servers_to = servers_to;
+				Log(LOG_ERROR,"restart worker ,from server %s:%d",sct->ip,sct->port);
+				break;
+			}else if(r > 0){
+				*childid = r;
+			}else{
+				Log(LOG_ERROR,"fork error, errno:%d",errno);
+			}
+		}
+		if(i == array_n(array_pid) -1){
+			return;
+		}
+	}
+	workerLoop();
+}
 
 void sigsegvHandler(int sig, siginfo_t *info, void *secret) {
 	Log(LOG_ERROR, "memory crash !!!");
@@ -211,6 +262,10 @@ int main(int argc, char const *argv[])
  	sigaction(SIGINT, &act, 0);
  	sigaction(SIGHUP, &act, 0);
  	sigaction(SIGTERM, &act, 0);
+ 	
+ 	//重新拉起挂掉的worker
+ 	act.sa_handler = reloadWorker;
+ 	sigaction(SIGUSR1,&act,0);
 
  	act.sa_sigaction = sigsegvHandler;
  	sigemptyset(&act.sa_mask);  
